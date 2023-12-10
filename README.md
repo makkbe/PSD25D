@@ -7,11 +7,15 @@ PSD25D depends on [psd-tools](https://github.com/psd-tools/psd-tools) and [Pillo
 
 `pip3 install psd-tools Pillow`
 
+Make psd2p5d.py executable (this is optional)
+
+`chmod +x psd2p5d.py`
+
 ## Usage
 
 PSD25D takes a single argument which is a Photoshop file containing multiple layers.
 
-`psd2p5d.py example.psd`
+`./psd2p5d.py example.psd`
 
 ### Assumptions
 
