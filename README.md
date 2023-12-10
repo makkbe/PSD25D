@@ -1,9 +1,9 @@
 # PSD25D
-A simple Python script that converts a Photoshop file to a p2d5 package used by the Disguise Designer software and media servers.
+A simple Python script that converts a Photoshop file to a p2d5 package used by the [Disguise](https://www.disguise.one) Designer software and media servers.
 
 ## Installation
 
-PSD25D depends on psd-tools and Pillow, so install those packages using pip.
+PSD25D depends on [psd-tools](https://github.com/psd-tools/psd-tools) and [Pillow](https://python-pillow.org/), so install those packages using pip.
 
 `pip install psd-tools Pillow`
 
