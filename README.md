@@ -3,9 +3,9 @@ A simple Python script that converts a Photoshop file to a p2d5 package used by 
 
 ## Installation
 
-PSD25D depends on [psd-tools](https://github.com/psd-tools/psd-tools) and [Pillow](https://python-pillow.org/), so install those packages using pip.
+PSD25D depends on [psd-tools](https://github.com/psd-tools/psd-tools) and [Pillow](https://python-pillow.org/), so install those packages using pip3.
 
-`pip install psd-tools Pillow`
+`pip3 install psd-tools Pillow`
 
 ## Usage
 
