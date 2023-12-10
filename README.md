@@ -25,7 +25,7 @@ PSD25D takes a single argument which is a Photoshop file containing multiple lay
 As this is work in progress, there are quite a few limitations still:
 
 1. Field of view is not calculated automatically;
-1. Scale and depth is not calculated correctly;
+1. Scale and depth are not calculated correctly;
 
 
 
