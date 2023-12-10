@@ -5,7 +5,7 @@ A simple Python script that converts a Photoshop file to a p2d5 package used by 
 
 PSD25D depends on psd-tools and Pillow, so install those packages using pip.
 
-`pip install pst-tools Pillow`
+`pip install psd-tools Pillow`
 
 ## Usage
 
