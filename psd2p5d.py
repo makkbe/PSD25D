@@ -1,7 +1,9 @@
+#!/usr/bin/env python3
 """
 Author: Marcus Bengtsson
 Contact: marcus@makkbe.net
-Description: This script converts a Photoshop file to a p2d5 package used by the Disguise media server and software.
+Description: This script converts a Photoshop file to a p2d5 package used by the Disguise Designer software and media servers.
+
 License: This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -22,15 +24,16 @@ import json
 import os
 import zipfile
 import sys
+import warnings
 
 
 asset = {
     "asset": {
         "max_depth": 100,
         "min_depth": 5,
-        "field_of_view": 80.32093811035156
+        "field_of_view": 80.32093811035156 # TODO: figure out how to calculate this automatically.
     },
-    "plates": []  # Empty array
+    "plates": []
 }
 
 def add_plate(data, name, filename, mean_depth_value, width, height, scale_x, scale_y, scale_z):
@@ -67,9 +70,7 @@ def zip_it(directory):
     os.rename(zip_filename, new_filename)
 
     return True
-    
 
-    
 def pad_height(img, target_height):
     width, height = img.size
 
@@ -93,28 +94,30 @@ def main(filename):
     if not os.path.exists(directory):
         os.makedirs(directory)
     
-    psd = PSDImage.open(filename)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore") # The function below has a tendency to spam us with warnings. Let's mute them until we've figured out why.
+        psd = PSDImage.open(filename)
     
     old_dir = os.getcwd()
     os.chdir(directory)
     
-    layers = [] # Create an empty list and all the layers contained in the PSD file
+    layers = []
     for layer in psd:
         layers.append(layer)
     
-    layers.reverse() # The PSD file will return the layer at the bottom of the layer stack first, which is the opposite of how the 2p5d file expects it.
+    layers.reverse() # Traversing the layers in the PSD file will return the layer at the bottom of the layer stack first, which is the opposite of how the 2p5d file expects it.
     
-    
-    
+    scale_x = 1.0 # TODO: figure out how to calculate this automatically.
+    scale_y = 1.0 # TODO: figure out how to calculate this automatically.
     scale_z = 1.0 # This appears to be the default starting value for the foreground layer. Does it change depending on the amount of layers in the 2.5D layer?
     for layer in layers:
         if layer.is_visible():
             layer_image = layer.composite()
             if layer.height < psd.height:
-                layer_image = pad_height(layer_image, psd.height)
+                layer_image = pad_height(layer_image, psd.height) # Add negative space to make sure all images are of equal size.
             
             layer_image.save('%s.png' % layer.name)
-            add_plate(asset, layer.name, '%s.png' % layer.name, 0, layer.width, layer.height, 1, 1, scale_z)
+            add_plate(asset, layer.name, '%s.png' % layer.name, 0, layer.width, layer.height, scale_x, scale_y, scale_z)
             scale_z = scale_z/2
     
     json_str = json.dumps(asset, indent=4)
